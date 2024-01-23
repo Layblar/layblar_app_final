@@ -10,5 +10,11 @@ class StopwatchItemsModel extends ChangeNotifier {
     _stopwatchItems.add(item);
     notifyListeners();
   }
+
+
+  void removeStopwatchItem(StopWatchItem item) {
+    _stopwatchItems.remove(item);
+    notifyListeners();
+  }
   
 }
