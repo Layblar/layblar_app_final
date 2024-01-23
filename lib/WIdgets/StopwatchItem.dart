@@ -4,7 +4,6 @@ import "package:ass/DTO/Device/DeviceDTO.dart";
 import "package:ass/DTO/SmartMeter/SmartMeterDataDTO.dart";
 import "package:ass/DTO/StopWatchHoldItem.dart";
 import "package:ass/HelperClasses/StatusCodes.dart";
-import "package:ass/Services/TokenCheckService.dart";
 import "package:ass/WIdgets/BottomToast.dart";
 import "package:flutter/material.dart";
 import "package:ass/Themes/Styles.dart";
@@ -178,7 +177,7 @@ class _StopWatchItemState extends State<StopWatchItem> {
             String householdId = decodedToken['householdId'];
             List<SmartMeterDataDTO> smartMeterData = await APIController.getSmartMeterData(token, householdId, from, to);
 
-            int response = await APIController.addLabeledData(token, householdId, deviceDTO!, smartMeterData);
+            int response = await APIController.addLabeledData(token, householdId, deviceDTO, smartMeterData);
 
             if(response == StatusCodes.CREATED){
               _delete();

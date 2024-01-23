@@ -13,7 +13,6 @@ import 'package:ass/Themes/Styles.dart';
 import 'package:ass/Themes/ThemeColors.dart';
 import 'package:ass/WIdgets/DeviceListItem.dart';
 import 'package:ass/WIdgets/StopwatchItem.dart';
-import 'package:ass/WIdgets/TimerItem.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:provider/provider.dart';
 
