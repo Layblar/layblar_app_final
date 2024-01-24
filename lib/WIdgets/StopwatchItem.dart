@@ -46,6 +46,7 @@ class _StopWatchItemState extends State<StopWatchItem> {
       _start();
     }
     startTime = DateTime.now();
+    endTime = DateTime.now();
   }
 
   @override
