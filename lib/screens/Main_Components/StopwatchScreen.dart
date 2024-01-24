@@ -225,7 +225,6 @@ void onStopWatchItemDeleted() {
           children: devices.isEmpty?
             [
               const Text("No Devices available")
-              //TODO: go to projects and join or add devices
             ]
            :devices.map((e) => ListTile(
             title: Text(e.deviceName, style: Styles.regularTextStyle,),

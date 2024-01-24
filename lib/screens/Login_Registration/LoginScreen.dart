@@ -142,7 +142,6 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
 
-  //TODO: validation etcetc
 Future<void> validateUserAndLogin() async {
   // Überprüfen, ob Benutzername und Passwort nicht leer sind
   String email = usernameController.text.trim();
@@ -171,7 +170,6 @@ Future<void> validateUserAndLogin() async {
     if (token != null) {
       Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
       if (JwtDecoder.isExpired(token)) {
-        // TODO: Zurück zum Login-Bildschirm
       } else {
         String householdId = decodedToken['householdId'];
 

@@ -203,10 +203,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 16), // Hier wird der Abstand hinzugefügt
-                //TODO: CATEGORIES
-               // selectedCategories != '' ?Text(selectedCategories): const SizedBox(),
-                //Text(selectedCategories),
+                const SizedBox(height: 16),
                 Padding(
                   padding: const EdgeInsets.only(top: 16.0, bottom: 16),
                   child: Text("Choose at least one Category!", style: Styles.infoBoxTextStyle,),
@@ -264,7 +261,6 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
   
 
 
-  //TODO: proper arsing and selecting the right new device;
   Future<List<DeviceCategoryDTO>> getAllDeviceCategories()async{
 
 

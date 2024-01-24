@@ -171,6 +171,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
     if(wasUserSuccessfullyRegistered){
       //showDialog, go To Login
+      // ignore: use_build_context_synchronously
       showDialog(context: context, builder: (BuildContext context){
         return AlertDialog(
           title: Text("Registration was successful! Please Log in again.", style: Styles.infoBoxTextStyle,),
@@ -182,6 +183,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       });
     }else{
       //showDialog, try again
+      // ignore: use_build_context_synchronously
       showDialog(context: context, builder: (BuildContext context){
         return AlertDialog(
           title: Text("Regstration not successful, try again", style: Styles.infoBoxTextStyle,),

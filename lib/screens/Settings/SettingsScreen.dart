@@ -110,7 +110,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
 
-//TODO: apply logic so the household updates, amybe a new call etc
   void navigateBack(){
     Navigator.of(context).pop();
   }

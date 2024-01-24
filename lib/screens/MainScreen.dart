@@ -55,7 +55,6 @@ class _MainScreenState extends State<MainScreen> {
 
   }
  
-  //TODO: Open settings
   @override
   Widget build(BuildContext context) {
     return PopScope(
@@ -125,7 +124,6 @@ class _MainScreenState extends State<MainScreen> {
             HouseholdDTO? response = await APIController.getHousehold(token, householdId);
             debugPrint("[------Household------]${response?.devices.length}");
 
-            //TODO: is a smart meter registered?
         }
 
     }else{

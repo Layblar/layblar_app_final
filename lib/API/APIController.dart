@@ -18,13 +18,6 @@ class APIController{
         'Content-Type': 'application/json',
   };
 
-
-//TODO: get JWT from shared prefs
-
-   //TODO: register smart meter+remove
-   //update device info
-
-
     static Future<String?> getTokenFromSharedPreferences() async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -60,7 +53,6 @@ class APIController{
       headers: headers,
       body: jsonEncode(postData),
     );
-  //todo 403 invalid user
     if(response.statusCode == 201){
       debugPrint(response.body);
       return true;
@@ -301,8 +293,6 @@ static Future<List<ProjectDTO>>getAllProjects(String token, {
       }
     );
 
-  
-
     if (response.statusCode == 200) {
       List<ProjectDTO> allProjects = [];
       List<dynamic> jsonProjects = jsonDecode(response.body);
@@ -314,7 +304,6 @@ static Future<List<ProjectDTO>>getAllProjects(String token, {
       
       return allProjects;
     } else {
-      //TODO:proper error handling
       return [];
     }      
   }
@@ -496,12 +485,10 @@ static Future<int> joinProject(String token, String householdId, String projectI
 
   static bool isReponseValid(int statusCode){
 
-    debugPrint("[-----STATUS-----]" + statusCode.toString());
     if(statusCode == 200){
       return true;
     }else if(statusCode == 401){
       return false;
-      //todo more validation
     }
     return false;
   }
