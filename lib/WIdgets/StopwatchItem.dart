@@ -59,20 +59,26 @@ class _StopWatchItemState extends State<StopWatchItem> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 8.0),
-              child: Text(widget.selectedDevice.deviceName, style: Styles.regularTextStyle,),
+              padding: const EdgeInsets.only(left: 16.0, top: 8),
+              child: Text(widget.selectedDevice.deviceName, style: TextStyle(color: ThemeColors.textColor, fontWeight: FontWeight.bold),),
             ),
+            const SizedBox(height: 8),
             Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                BlinkingDotWidget(isRunning: _isRunning),
-                Container(
-                  decoration: Styles.primaryBackgroundContainerDecoration,
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Text(widget.result),
-                  ),
+                Row(
+                  children: [
+                    _isRunning?BlinkingDotWidget(isRunning: _isRunning):const SizedBox(),
+                    Container(
+                      decoration: Styles.primaryBackgroundContainerDecoration,
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Text(widget.result),
+                      ),
+                    ),
+                  ],
                 ),
+                
                 _isRunning?
                 ElevatedButton(
                     style: Styles.errorButtonStyle,
@@ -82,8 +88,8 @@ class _StopWatchItemState extends State<StopWatchItem> {
                     },
                     child:  Icon(Icons.stop, color: ThemeColors.secondaryBackground,),
                 )
-                :ElevatedButton(style: Styles.secondaryButtonStyle, onPressed: () => addLabeledData(widget.selectedDevice, startTime, endTime), child: Icon(Icons.send, color: ThemeColors.secondaryBackground)),
-                IconButton(onPressed: () => _delete(), icon: Icon(Icons.delete, color: ThemeColors.textColor)),
+                :ElevatedButton(style: Styles.secondaryButtonStyle, onPressed: () => addLabeledData(widget.selectedDevice, startTime, endTime), child: Text("Add Label", style: Styles.secondaryTextStyle)),
+                ElevatedButton(style: Styles.errorButtonStyle, onPressed: ()=> _delete(), child: Icon(Icons.delete, color: ThemeColors.secondaryBackground,))
           
               ],
             ),
