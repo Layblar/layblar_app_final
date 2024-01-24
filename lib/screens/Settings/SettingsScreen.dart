@@ -74,6 +74,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(Icons.add, color: ThemeColors.primaryBackground,),
+              const SizedBox(width: 4),
               Text("Add Smart Meter", style: Styles.secondaryTextStyle,),
             ],
           ));
@@ -87,6 +88,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(Icons.manage_accounts, color: ThemeColors.primaryBackground,),
+                const SizedBox(width: 4),
                 Text("Manage Projects", style: Styles.secondaryTextStyle,),
               ],
             ));
@@ -99,7 +101,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
            child: Row(
              mainAxisAlignment: MainAxisAlignment.center,
              children: [
-               Icon(Icons.add, color: ThemeColors.primaryBackground,),
+               Icon(Icons.tv, color: ThemeColors.primaryBackground,),
+               const SizedBox(width: 4),
                Text("Add new Device", style: Styles.secondaryTextStyle,),
              ],
            )

@@ -54,6 +54,11 @@ class _RegisterSmartMeterScreenState extends State<RegisterSmartMeterScreen> {
 
 
   Future<void> registerSmartMeter(String smartMeterId) async{
+
+    if(smartMeterIdController.text.isEmpty){
+      BottomToast.showToast("Please enter a SmartMeter ID");
+      return;
+    }
     final String? token = await APIController.getTokenFromSharedPreferences();
     if(token != null){
         Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
@@ -68,16 +73,16 @@ class _RegisterSmartMeterScreenState extends State<RegisterSmartMeterScreen> {
             debugPrint("[----smartmeterID----]$smartMeterId");
             
             if(response == StatusCodes.OK){
-             BottomToast.showToast("Smartmeter successfullty Registered");
-             Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => const MainScreen()));
+              BottomToast.showToast("Smartmeter successfullty Registered");
+              Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => const MainScreen()));
             }else if(response == StatusCodes.UNAUTHORIZED){
-             BottomToast.showToast("STH STRANGE HAPPENED$response");
+              BottomToast.showToast("STH STRANGE HAPPENED$response");
             }else if(response == StatusCodes.INVALID_USER){
-            BottomToast.showToast("STH STRANGE HAPPENED$response");
+              BottomToast.showToast("STH STRANGE HAPPENED$response");
             }else if(response == StatusCodes.SERVER_ERROR){
-            BottomToast.showToast("STH STRANGE HAPPENED$response");
+              BottomToast.showToast("STH STRANGE HAPPENED$response");
             }else{
-            BottomToast.showToast("STH STRANGE HAPPENED$response");
+              BottomToast.showToast("STH STRANGE HAPPENED$response");
             }
         }
     }
