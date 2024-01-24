@@ -1,5 +1,5 @@
 import 'package:ass/API/APIController.dart';
-import 'package:ass/DTO/StopWatchHoldItem.dart';
+import 'package:ass/HelperClasses/StopWatchHoldItem.dart';
 import 'package:ass/DTO/TimerHoldItem.dart';
 import 'package:ass/Themes/ThemeColors.dart';
 import 'package:ass/screens/Login_Registration/LoginScreen.dart';

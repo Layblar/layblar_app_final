@@ -2,7 +2,7 @@ import "dart:async";
 import "package:ass/API/APIController.dart";
 import "package:ass/DTO/Device/DeviceDTO.dart";
 import "package:ass/DTO/SmartMeter/SmartMeterDataDTO.dart";
-import "package:ass/DTO/StopWatchHoldItem.dart";
+import 'package:ass/HelperClasses/StopWatchHoldItem.dart';
 import "package:ass/HelperClasses/StatusCodes.dart";
 import "package:ass/WIdgets/BottomToast.dart";
 import "package:flutter/material.dart";

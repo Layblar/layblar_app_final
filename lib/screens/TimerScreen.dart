@@ -5,13 +5,10 @@ import 'package:ass/DTO/Device/DeviceDTO.dart';
 import 'package:ass/Services/NotificationService.dart';
 import 'package:ass/Services/TokenCheckService.dart';
 import 'package:ass/WIdgets/BottomToast.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ass/DTO/DEviceCardMocksDTO.dart';
-import 'package:ass/DTO/StopWatchHoldItem.dart';
+import 'package:ass/HelperClasses/StopWatchHoldItem.dart';
 import 'package:ass/Themes/Styles.dart';
 import 'package:ass/Themes/ThemeColors.dart';
-import 'package:ass/WIdgets/DeviceListItem.dart';
 import 'package:ass/WIdgets/StopwatchItem.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:provider/provider.dart';
@@ -35,7 +32,6 @@ class _TimerScreenState extends State<TimerScreen> with WidgetsBindingObserver  
   String selectedDevice = "";
   late DeviceDTO currentDevice;
 
-  List<DeviceListItem> mockedItems = DeviceCardMockDTO.generateCards();
   List<DropdownMenuItem<String>> dropdownItems = [];
 
   List<StopWatchItem> stopwatchItems = [];
@@ -60,7 +56,6 @@ class _TimerScreenState extends State<TimerScreen> with WidgetsBindingObserver  
   var stopwatchItemsModel = Provider.of<StopwatchItemsModel>(context, listen: false);
 
   stopwatchItems = stopwatchItemsModel.stopwatchItems;
-  selectedDevice = mockedItems[0].title;
   
 
     for (var item in stopwatchItems) {

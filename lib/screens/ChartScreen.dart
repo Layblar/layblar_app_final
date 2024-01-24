@@ -6,17 +6,16 @@ import 'package:ass/HelperClasses/StatusCodes.dart';
 import 'package:ass/Services/TokenCheckService.dart';
 import 'package:ass/WIdgets/BottomToast.dart';
 import 'package:flutter/material.dart';
-import 'package:ass/DTO/DEviceCardMocksDTO.dart';
-import 'package:ass/DTO/DataPointMockDTO.dart';
+import 'package:ass/HelperClasses/DataPoint.dart';
 import 'package:ass/Themes/Styles.dart';
 import 'package:ass/Themes/ThemeColors.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:syncfusion_flutter_charts/charts.dart' hide LabelPlacement;
 import 'package:syncfusion_flutter_sliders/sliders.dart';
+// ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
 
 
-import '../WIdgets/DeviceListItem.dart';
 
 class ChartScreen extends StatefulWidget {
   const ChartScreen({ Key? key }) : super(key: key);
@@ -50,7 +49,6 @@ class _ChartScreenState extends State<ChartScreen> {
 
   bool isChartSelectionEnabled = true;
 
-  List<DeviceListItem> mockedItems = DeviceCardMockDTO.generateCards();
   List<DropdownMenuItem<String>> dropdownItems = [];
 
 

@@ -5,8 +5,6 @@ import 'package:ass/Services/TokenCheckService.dart';
 import 'package:ass/screens/Settings/AddDeviceScreen.dart';
 import 'package:ass/screens/Settings/ManageProjectsScreen.dart';
 import 'package:flutter/material.dart';
-import 'package:ass/DTO/DEviceCardMocksDTO.dart';
-import 'package:ass/WIdgets/DeviceListItem.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
 import '../Themes/Styles.dart';
@@ -26,9 +24,6 @@ bool isDevicesViewSelected = false;
 
 final String ABOUT_PAGE = "ABOUT";
 final String DEVICE_PAGE = "DEVICE";
-
-
-List<DeviceListItem> deviceMocks = DeviceCardMockDTO.generateCards();
 
 
 @override
