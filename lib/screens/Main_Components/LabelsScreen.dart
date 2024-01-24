@@ -5,7 +5,7 @@ import 'package:ass/Services/TokenCheckService.dart';
 import 'package:flutter/material.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
-import '../Themes/Styles.dart';
+import '../../Themes/Styles.dart';
 
 class LabelsScreen extends StatefulWidget {
   const LabelsScreen({ Key? key }) : super(key: key);

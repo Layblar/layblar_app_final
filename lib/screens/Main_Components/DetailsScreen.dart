@@ -7,8 +7,8 @@ import 'package:ass/screens/Settings/ManageProjectsScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
-import '../Themes/Styles.dart';
-import '../Themes/ThemeColors.dart';
+import '../../Themes/Styles.dart';
+import '../../Themes/ThemeColors.dart';
 
 class DetailsScreen extends StatefulWidget {
   const DetailsScreen({ Key? key }) : super(key: key);

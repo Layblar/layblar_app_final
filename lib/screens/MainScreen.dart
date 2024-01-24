@@ -3,15 +3,15 @@ import 'package:ass/API/APIController.dart';
 import 'package:ass/DTO/Household/HouseholdDTO.dart';
 import 'package:ass/Services/TokenCheckService.dart';
 import 'package:ass/Themes/Styles.dart';
-import 'package:ass/screens/ChartScreen.dart';
-import 'package:ass/screens/DetailsScreen.dart';
-import 'package:ass/screens/LabelsScreen.dart';
+import 'package:ass/screens/Main_Components/ChartScreen.dart';
+import 'package:ass/screens/Main_Components/DetailsScreen.dart';
+import 'package:ass/screens/Main_Components/LabelsScreen.dart';
 import 'package:ass/screens/Login_Registration/RegisterScreen.dart';
 import 'package:ass/screens/Settings/SettingsScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import '../Themes/ThemeColors.dart';
-import 'TimerScreen.dart';
+import 'Main_Components/StopwatchScreen.dart';
 
 
 class MainScreen extends StatefulWidget with WidgetsBindingObserver {
@@ -67,7 +67,7 @@ class _MainScreenState extends State<MainScreen> {
           title:  Text(_currentScreenTitle, textAlign: TextAlign.center, style: Styles.regularTextStyle,),
           backgroundColor: ThemeColors.secondaryBackground,
           actions: [
-            IconButton(icon: Icon(Icons.person, color: ThemeColors.textColor,), onPressed: () => _openSettings(),)
+            IconButton(icon: Icon(Icons.settings, color: ThemeColors.textColor,), onPressed: () => _openSettings(),)
           ],
           automaticallyImplyLeading: false,
           ),
