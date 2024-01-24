@@ -26,22 +26,74 @@ class _ManageProjectsScreenState extends State<ManageProjectsScreen> {
     return  Scaffold(
       appBar: AppBar(title: const Text("Manage Projects"), backgroundColor: ThemeColors.secondaryBackground,),
       backgroundColor: ThemeColors.secondaryBackground,
-      body: FutureBuilder(
-        future: getHouseholdDevices(),
-        builder: (context, snapshot){
-          if(snapshot.connectionState == ConnectionState.waiting){
-            return  const Center(child: SizedBox(height: 32, width: 32, child: CircularProgressIndicator()));
-          }else if(snapshot.hasError){
-            return Text('Error ${snapshot.error}');
-          }else{
-            List<DeviceCategoryDTO> allHouseholCategories = snapshot.data!;
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children:[
-                Text("Projects you've already joined", style: Styles.regularTextStyle,),
-                Expanded(
-                  child: FutureBuilder(
-                  future: getAlreadyJoinedProjects(), 
+      body: getMainSection(),
+    );
+
+  }
+
+  FutureBuilder<List<DeviceCategoryDTO>> getMainSection() {
+    return FutureBuilder(
+      future: getHouseholdDevices(),
+      builder: (context, snapshot){
+        if(snapshot.connectionState == ConnectionState.waiting){
+          return  const Center(child: SizedBox(height: 32, width: 32, child: CircularProgressIndicator()));
+        }else if(snapshot.hasError){
+          return Text('Error ${snapshot.error}');
+        }else{
+          List<DeviceCategoryDTO> allHouseholCategories = snapshot.data!;
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children:[
+              Text("Projects you've already joined", style: Styles.regularTextStyle,),
+              Expanded(
+                child: FutureBuilder(
+                future: getAlreadyJoinedProjects(), 
+                builder: (context, snapshot){
+                  if(snapshot.connectionState == ConnectionState.waiting){
+                    return  const Center(child: SizedBox(height: 32, width: 32, child: CircularProgressIndicator()));
+                  }else if(snapshot.hasError){
+                    return Text('Error ${snapshot.error}');
+                  }else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return const Text("No Projects");    
+                  }else{
+                    List<ProjectDTO> alreadyJoinedProjects = snapshot.data!;
+                    return ListView.builder(
+                      itemCount: alreadyJoinedProjects.length,
+                      itemBuilder: (context, index){
+                        ProjectDTO p = alreadyJoinedProjects[index];
+                        return Column(
+                          children: [
+                            Container(
+                              decoration: Styles.primaryBackgroundContainerDecoration,
+                              child: ListTile(
+                                title: Text(p.projectName, style: Styles.regularTextStylePrimaryColor,),
+                                subtitle: Text(p.projectDescription, style: Styles.regularTextStyle),
+                                trailing: IconButton(icon: Icon(Icons.delete, color: ThemeColors.textColor,), onPressed: ()=> showDialog(
+                                  context: context, builder: (BuildContext context){
+                                    return AlertDialog(
+                                      backgroundColor: ThemeColors.secondaryBackground,
+                                      title: Text("Are you sure you want to leave this Project?", style: Styles.infoBoxTextStyle,),
+                                      actions: [
+                                        ElevatedButton(style:Styles.errorButtonStyle, onPressed: ()=> Navigator.of(context).pop(), child: Text("No", style: Styles.secondaryTextStyle)),
+                                        ElevatedButton(style:Styles.primaryButtonStyle, onPressed: (){}, child: Text("Yes", style: Styles.secondaryTextStyle))
+                                      ],
+                                    );
+                                  }),),
+                              ),
+                            ),
+                            const SizedBox(height: 32)
+                          ],
+                        );
+                        }
+                      );
+                    }
+                  }
+                ),
+              ),
+              Text("Projects you can join"),
+              Expanded(
+                child: FutureBuilder(
+                  future: getJoinableProjects(), 
                   builder: (context, snapshot){
                     if(snapshot.connectionState == ConnectionState.waiting){
                       return  const Center(child: SizedBox(height: 32, width: 32, child: CircularProgressIndicator()));
@@ -50,147 +102,99 @@ class _ManageProjectsScreenState extends State<ManageProjectsScreen> {
                     }else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                       return const Text("No Projects");    
                     }else{
-                      List<ProjectDTO> alreadyJoinedProjects = snapshot.data!;
+                      List<ProjectDTO> joinableProjects = snapshot.data!;
                       return ListView.builder(
-                        itemCount: alreadyJoinedProjects.length,
+                        itemCount: joinableProjects.length,
                         itemBuilder: (context, index){
-                          ProjectDTO p = alreadyJoinedProjects[index];
+                          ProjectDTO p = joinableProjects[index];
+                          List<DeviceCategoryDTO> projectCategories = [];
+                          List<DeviceCategoryDTO> householdCategories = allHouseholCategories;
+
+                
+                          //Hier brauche ich funktion um alle categories herauszuholn und die mit meinem haushault abzugleichen
+                          List<LabelDTO> labels = p.labels;
+                          for(LabelDTO l in labels){
+                            List<DeviceCategoryDTO> categories = l.categories;
+                              for(DeviceCategoryDTO c in categories){
+                                projectCategories.add(c);
+                              }
+                          }
+
+                          Set<DeviceCategoryDTO> categoriesNotInHouseholdSet = Set<DeviceCategoryDTO>.from(
+                            projectCategories.where((projectCategory) =>
+                              !householdCategories.any((householdCategory) => householdCategory.categoryId == projectCategory.categoryId)),
+                            );
+
+                          List<DeviceCategoryDTO> categoriesNotInHousehold = categoriesNotInHouseholdSet.toList();
+
+                          for(DeviceCategoryDTO d in categoriesNotInHousehold){
+                            debugPrint("Category: " + d.categoryName + ", " + d.categoryId + ", " + p.projectName);
+                          }
+
+
+                          debugPrint(categoriesNotInHousehold.length.toString() + " missing for project " + p.projectName);
+                        
                           return Column(
                             children: [
                               Container(
                                 decoration: Styles.primaryBackgroundContainerDecoration,
                                 child: ListTile(
                                   title: Text(p.projectName, style: Styles.regularTextStylePrimaryColor,),
-                                  subtitle: Text(p.projectDescription, style: Styles.regularTextStyle),
-                                  trailing: IconButton(icon: Icon(Icons.delete, color: ThemeColors.textColor,), onPressed: ()=> showDialog(
-                                    context: context, builder: (BuildContext context){
-                                      return AlertDialog(
-                                        backgroundColor: ThemeColors.secondaryBackground,
-                                        title: Text("Are you sure you want to leave this Project?", style: Styles.infoBoxTextStyle,),
-                                        actions: [
-                                          ElevatedButton(style:Styles.errorButtonStyle, onPressed: ()=> Navigator.of(context).pop(), child: Text("No", style: Styles.secondaryTextStyle)),
-                                          ElevatedButton(style:Styles.primaryButtonStyle, onPressed: (){}, child: Text("Yes", style: Styles.secondaryTextStyle))
-                                        ],
-                                      );
-                                    }),),
-                                ),
-                              ),
-                              const SizedBox(height: 32)
-                            ],
-                          );
-                          }
-                        );
-                      }
-                    }
-                  ),
-                ),
-                Text("Projects you can join"),
-                Expanded(
-                  child: FutureBuilder(
-                    future: getJoinableProjects(), 
-                    builder: (context, snapshot){
-                      if(snapshot.connectionState == ConnectionState.waiting){
-                        return  const Center(child: SizedBox(height: 32, width: 32, child: CircularProgressIndicator()));
-                      }else if(snapshot.hasError){
-                        return Text('Error ${snapshot.error}');
-                      }else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                        return const Text("No Projects");    
-                      }else{
-                        List<ProjectDTO> joinableProjects = snapshot.data!;
-                        return ListView.builder(
-                          itemCount: joinableProjects.length,
-                          itemBuilder: (context, index){
-                            ProjectDTO p = joinableProjects[index];
-                            List<DeviceCategoryDTO> projectCategories = [];
-                            List<DeviceCategoryDTO> householdCategories = allHouseholCategories;
-
-                  
-                            //Hier brauche ich funktion um alle categories herauszuholn und die mit meinem haushault abzugleichen
-                            List<LabelDTO> labels = p.labels;
-                            for(LabelDTO l in labels){
-                              List<DeviceCategoryDTO> categories = l.categories;
-                                for(DeviceCategoryDTO c in categories){
-                                  projectCategories.add(c);
-                                }
-                            }
-
-                            Set<DeviceCategoryDTO> categoriesNotInHouseholdSet = Set<DeviceCategoryDTO>.from(
-                              projectCategories.where((projectCategory) =>
-                                !householdCategories.any((householdCategory) => householdCategory.categoryId == projectCategory.categoryId)),
-                              );
-
-                            List<DeviceCategoryDTO> categoriesNotInHousehold = categoriesNotInHouseholdSet.toList();
-
-                            for(DeviceCategoryDTO d in categoriesNotInHousehold){
-                              debugPrint("Category: " + d.categoryName + ", " + d.categoryId + ", " + p.projectName);
-                            }
-
-
-                            debugPrint(categoriesNotInHousehold.length.toString() + " missing for project " + p.projectName);
-                          
-                            return Column(
-                              children: [
-                                Container(
-                                  decoration: Styles.primaryBackgroundContainerDecoration,
-                                  child: ListTile(
-                                    title: Text(p.projectName, style: Styles.regularTextStylePrimaryColor,),
-                                    subtitle: 
-                                    categoriesNotInHousehold.isEmpty?
-                                      Text(p.projectDescription, style: Styles.regularTextStyle,)
-                                      :Text("${categoriesNotInHousehold.length} Categories missing", style: Styles.regularTextStyle),
-                                    trailing: 
-                                    categoriesNotInHousehold.isEmpty ?
-                                      ElevatedButton(style: Styles.primaryButtonStyle, onPressed: (){
-                                        showDialog(context: context, builder: (BuildContext context){
-                                          return AlertDialog(
-                                            backgroundColor: ThemeColors.secondaryBackground,
-                                            title: Text("Do you want to join this Project?", style: Styles.infoBoxTextStyle,),
-                                            actions: [
-                                              ElevatedButton(style: Styles.errorButtonStyle, onPressed: ()=> Navigator.of(context).pop(), child: Text("No", style: Styles.secondaryTextStyle,)),
-                                              ElevatedButton(style: Styles.primaryButtonStyle, onPressed: ()=> joinProject(p.projectId, p.metaData), child: Text("Yes", style: Styles.secondaryTextStyle))
-                                            ],
-                                          );
-                                        });
-                                      }, child: Text("Join", style: Styles.secondaryTextStyle,))
-                                    : IconButton(onPressed: (){
+                                  subtitle: 
+                                  categoriesNotInHousehold.isEmpty?
+                                    Text(p.projectDescription, style: Styles.regularTextStyle,)
+                                    :Text("${categoriesNotInHousehold.length} Categories missing", style: Styles.regularTextStyle),
+                                  trailing: 
+                                  categoriesNotInHousehold.isEmpty ?
+                                    ElevatedButton(style: Styles.primaryButtonStyle, onPressed: (){
                                       showDialog(context: context, builder: (BuildContext context){
                                         return AlertDialog(
                                           backgroundColor: ThemeColors.secondaryBackground,
-                                          title: Text("Categories missing for Project ${p.projectName}", style: Styles.infoBoxTextStyle,),
-                                          content: SizedBox(
-                                          width: double.maxFinite,
-                                          child: ListView.builder(
-                                            itemCount: categoriesNotInHousehold.length,
-                                            itemBuilder: (context, index) {
-                                              DeviceCategoryDTO element = categoriesNotInHousehold[index];
-                                              return Text(element.categoryName);
-                                            },
-                                          ),
-                                        ),
-                                        actions: [
-                                          ElevatedButton( style:Styles.errorButtonStyle, onPressed: ()=> Navigator.of(context).pop(), child: Text("Close", style: Styles.secondaryTextStyle,)),
-                                          ElevatedButton( style:Styles.primaryButtonStyle, onPressed: ()=> Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context)=> const AddDeviceScreen())), child: Text("Add Device(s)", style: Styles.secondaryTextStyle,))
-                                        ],
+                                          title: Text("Do you want to join this Project?", style: Styles.infoBoxTextStyle,),
+                                          actions: [
+                                            ElevatedButton(style: Styles.errorButtonStyle, onPressed: ()=> Navigator.of(context).pop(), child: Text("No", style: Styles.secondaryTextStyle,)),
+                                            ElevatedButton(style: Styles.primaryButtonStyle, onPressed: ()=> joinProject(p.projectId, p.metaData), child: Text("Yes", style: Styles.secondaryTextStyle))
+                                          ],
                                         );
-                                    });
-                                    }, icon:  Icon(Icons.info, color: ThemeColors.primary,)),
-                                  ),
+                                      });
+                                    }, child: Text("Join", style: Styles.secondaryTextStyle,))
+                                  : IconButton(onPressed: (){
+                                    showDialog(context: context, builder: (BuildContext context){
+                                      return AlertDialog(
+                                        backgroundColor: ThemeColors.secondaryBackground,
+                                        title: Text("Categories missing for Project ${p.projectName}", style: Styles.infoBoxTextStyle,),
+                                        content: SizedBox(
+                                        width: double.maxFinite,
+                                        child: ListView.builder(
+                                          itemCount: categoriesNotInHousehold.length,
+                                          itemBuilder: (context, index) {
+                                            DeviceCategoryDTO element = categoriesNotInHousehold[index];
+                                            return Text(element.categoryName);
+                                          },
+                                        ),
+                                      ),
+                                      actions: [
+                                        ElevatedButton( style:Styles.errorButtonStyle, onPressed: ()=> Navigator.of(context).pop(), child: Text("Close", style: Styles.secondaryTextStyle,)),
+                                        ElevatedButton( style:Styles.primaryButtonStyle, onPressed: ()=> Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context)=> const AddDeviceScreen())), child: Text("Add Device(s)", style: Styles.secondaryTextStyle,))
+                                      ],
+                                      );
+                                  });
+                                  }, icon:  Icon(Icons.info, color: ThemeColors.primary,)),
                                 ),
-                              const SizedBox(height: 16)
-                              ],
-                            );
-                        });
-                      }
+                              ),
+                            const SizedBox(height: 16)
+                            ],
+                          );
+                      });
                     }
-                  ),
-                ),               
-              ]
-            );
-          }
+                  }
+                ),
+              ),               
+            ]
+          );
         }
-      ),
+      }
     );
-
   }
 
 

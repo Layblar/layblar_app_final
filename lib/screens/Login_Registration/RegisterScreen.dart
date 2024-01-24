@@ -29,128 +29,131 @@ class _RegisterScreenState extends State<RegisterScreen> {
           backgroundColor: ThemeColors.primaryBackground,
         ),
         backgroundColor: ThemeColors.primaryBackground,
-        body: Container(
-          width: double.infinity,
-          decoration: Styles.containerDecoration,
-          margin: const EdgeInsets.only(top: 8),
-
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Text("Let's Get Started!", style: Styles.headerTextStyle,),
-                Text("Create an account to Layblar to get all features", style: Styles.regularTextStyle,),
-                Container(
-                  decoration: Styles.primaryBackgroundContainerDecoration,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: TextFormField( 
-                      style: Styles.regularTextStyle,
-                      controller: firstmameController,
-                      decoration:  InputDecoration(
-                        iconColor: ThemeColors.primary,
-                        hoverColor: ThemeColors.primary,
-                        icon: const Icon(Icons.person),
-                        labelText: ("Firstname *"),
-                        labelStyle: Styles.regularTextStyle,
-                        focusedBorder: InputBorder.none,
-                        enabledBorder: InputBorder.none,
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  decoration: Styles.primaryBackgroundContainerDecoration,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: TextFormField( 
-                      style: Styles.regularTextStyle,
-                      controller: lastnameController,
-                      decoration:  InputDecoration(
-                        iconColor: ThemeColors.primary,
-                        hoverColor: ThemeColors.primary,
-                        icon: const Icon(Icons.person_2),
-                        labelText: ("Lastname *"),                           
-                        labelStyle: Styles.regularTextStyle,
-                        focusedBorder: InputBorder.none,
-                        enabledBorder: InputBorder.none,
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  decoration: Styles.primaryBackgroundContainerDecoration,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: TextFormField( 
-                      style: Styles.regularTextStyle,
-                      controller: firstmameController,
-                      decoration:  InputDecoration(
-                        iconColor: ThemeColors.primary,
-                        hoverColor: ThemeColors.primary,
-                        icon: const Icon(Icons.email),
-                        labelText: ("Email *"),
-                        labelStyle: Styles.regularTextStyle,
-                        focusedBorder: InputBorder.none,
-                        enabledBorder: InputBorder.none,
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  decoration: Styles.primaryBackgroundContainerDecoration,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: TextFormField( 
-                      style: Styles.regularTextStyle,
-                      controller: firstmameController,
-                      obscureText: !showPassword, // Hier wird das Passwort verborgen oder angezeigt
-                      decoration:  InputDecoration(
-                        iconColor: ThemeColors.primary,
-                        hoverColor: ThemeColors.primary,
-                        icon: const Icon(Icons.lock),
-                        labelText: ("Password *"),
-                        labelStyle: Styles.regularTextStyle,
-                        focusedBorder: InputBorder.none,
-                        enabledBorder: InputBorder.none,
-                        suffixIcon: IconButton(
-                              icon: Icon(showPassword ? Icons.visibility : Icons.visibility_off, color: ThemeColors.textColor,),
-                              onPressed: () {
-                                setState(() {
-                                  showPassword = !showPassword;
-                                });
-                                debugPrint(showPassword.toString());
-                              },
-                  ),
-                      ),
-                    ),
-                  ),
-                ),
-                  
-                Row(
-                  children: [
-                    Expanded(child: Padding(
-                      padding: const EdgeInsets.only(right: 8),
-                      child: ElevatedButton(style: Styles.errorButtonStyle, onPressed: ()=> Navigator.of(context).pop(), child: Text("Back to Login", style: Styles.secondaryTextStyle,)),
-                    )),
-                    Expanded(child: Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
-                      child: ElevatedButton(style: Styles.primaryButtonStyle, onPressed: ()=> registerNewUser(firstmameController.text, lastnameController.text, emailController.text, passwordController.text), child: Text("Create", style: Styles.secondaryTextStyle,)),
-                    )),
-                  ],
-                )          
-              ],
-            ),
-          ),
-        ),
+        body: getRegisterFormSection(context),
       ),
     );
   }
 
+  Container getRegisterFormSection(BuildContext context) {
+    return Container(
+        width: double.infinity,
+        decoration: Styles.containerDecoration,
+        margin: const EdgeInsets.only(top: 8),
+
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Text("Let's Get Started!", style: Styles.headerTextStyle,),
+              Text("Create an account to Layblar to get all features", style: Styles.regularTextStyle,),
+              Container(
+                decoration: Styles.primaryBackgroundContainerDecoration,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: TextFormField( 
+                    style: Styles.regularTextStyle,
+                    controller: firstmameController,
+                    decoration:  InputDecoration(
+                      iconColor: ThemeColors.primary,
+                      hoverColor: ThemeColors.primary,
+                      icon: const Icon(Icons.person),
+                      labelText: ("Firstname *"),
+                      labelStyle: Styles.regularTextStyle,
+                      focusedBorder: InputBorder.none,
+                      enabledBorder: InputBorder.none,
+                    ),
+                  ),
+                ),
+              ),
+              Container(
+                decoration: Styles.primaryBackgroundContainerDecoration,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: TextFormField( 
+                    style: Styles.regularTextStyle,
+                    controller: lastnameController,
+                    decoration:  InputDecoration(
+                      iconColor: ThemeColors.primary,
+                      hoverColor: ThemeColors.primary,
+                      icon: const Icon(Icons.person_2),
+                      labelText: ("Lastname *"),                           
+                      labelStyle: Styles.regularTextStyle,
+                      focusedBorder: InputBorder.none,
+                      enabledBorder: InputBorder.none,
+                    ),
+                  ),
+                ),
+              ),
+              Container(
+                decoration: Styles.primaryBackgroundContainerDecoration,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: TextFormField( 
+                    style: Styles.regularTextStyle,
+                    controller: firstmameController,
+                    decoration:  InputDecoration(
+                      iconColor: ThemeColors.primary,
+                      hoverColor: ThemeColors.primary,
+                      icon: const Icon(Icons.email),
+                      labelText: ("Email *"),
+                      labelStyle: Styles.regularTextStyle,
+                      focusedBorder: InputBorder.none,
+                      enabledBorder: InputBorder.none,
+                    ),
+                  ),
+                ),
+              ),
+              Container(
+                decoration: Styles.primaryBackgroundContainerDecoration,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: TextFormField( 
+                    style: Styles.regularTextStyle,
+                    controller: firstmameController,
+                    obscureText: !showPassword, // Hier wird das Passwort verborgen oder angezeigt
+                    decoration:  InputDecoration(
+                      iconColor: ThemeColors.primary,
+                      hoverColor: ThemeColors.primary,
+                      icon: const Icon(Icons.lock),
+                      labelText: ("Password *"),
+                      labelStyle: Styles.regularTextStyle,
+                      focusedBorder: InputBorder.none,
+                      enabledBorder: InputBorder.none,
+                      suffixIcon: IconButton(
+                            icon: Icon(showPassword ? Icons.visibility : Icons.visibility_off, color: ThemeColors.textColor,),
+                            onPressed: () {
+                              setState(() {
+                                showPassword = !showPassword;
+                              });
+                              debugPrint(showPassword.toString());
+                            },
+                ),
+                    ),
+                  ),
+                ),
+              ),
+                
+              Row(
+                children: [
+                  Expanded(child: Padding(
+                    padding: const EdgeInsets.only(right: 8),
+                    child: ElevatedButton(style: Styles.errorButtonStyle, onPressed: ()=> Navigator.of(context).pop(), child: Text("Back to Login", style: Styles.secondaryTextStyle,)),
+                  )),
+                  Expanded(child: Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: ElevatedButton(style: Styles.primaryButtonStyle, onPressed: ()=> registerNewUser(firstmameController.text, lastnameController.text, emailController.text, passwordController.text), child: Text("Create", style: Styles.secondaryTextStyle,)),
+                  )),
+                ],
+              )          
+            ],
+          ),
+        ),
+      );
+  }
+
 
   Future<void> registerNewUser(String firstname, String lastname, String email, String password)async{
-    //do the call
 
     String fname = firstmameController.text.trim();
     String lname = lastnameController.text.trim();

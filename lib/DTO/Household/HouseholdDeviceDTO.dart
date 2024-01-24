@@ -25,7 +25,6 @@ class HouseholdDeviceDTO{
   });
 
 
-   // Convert the object to a JSON map
   Map<String, dynamic> toJson() {
     return {
       'deviceId': deviceId,
@@ -41,7 +40,6 @@ class HouseholdDeviceDTO{
   }
 
 
-  // Factory method to create a HouseholdDeviceDTO instance from a JSON map
   factory HouseholdDeviceDTO.fromJson(Map<String, dynamic> json) {
     List<dynamic> categoriesList = json['categories'] ?? [];
     List<DeviceCategoryDTO> parsedCategories =

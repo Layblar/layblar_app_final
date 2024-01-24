@@ -25,31 +25,35 @@ class _RegisterSmartMeterScreenState extends State<RegisterSmartMeterScreen> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: ThemeColors.primaryBackground,
-        body: Column(
-          children: [
-            Text("Please register a SmartMeter device.", style: Styles.headerTextStyle,),
-            Text("Type in the Id on the label on your SmartMeter Device.", style: Styles.regularTextStyle,),
-            Container(
-              decoration: Styles.primaryBackgroundContainerDecoration,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: TextFormField( 
-                  style: Styles.regularTextStyle,
-                  controller: smartMeterIdController,
-                  decoration:  InputDecoration(
-                    hoverColor: ThemeColors.primary,
-                    labelText: ("Enter ID here"),
-                    focusedBorder: InputBorder.none,
-                    enabledBorder: InputBorder.none,
-                  ),
+        body: getRegisterSmartMeterSection(),
+      ),
+    );
+  }
+
+  Column getRegisterSmartMeterSection() {
+    return Column(
+        children: [
+          Text("Please register a SmartMeter device.", style: Styles.headerTextStyle,),
+          Text("Type in the Id on the label on your SmartMeter Device.", style: Styles.regularTextStyle,),
+          Container(
+            decoration: Styles.primaryBackgroundContainerDecoration,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: TextFormField( 
+                style: Styles.regularTextStyle,
+                controller: smartMeterIdController,
+                decoration:  InputDecoration(
+                  hoverColor: ThemeColors.primary,
+                  labelText: ("Enter ID here"),
+                  focusedBorder: InputBorder.none,
+                  enabledBorder: InputBorder.none,
                 ),
               ),
             ),
-            ElevatedButton(style:Styles.primaryButtonStyle,  onPressed: ()=>registerSmartMeter(smartMeterIdController.text), child: Text('Register SmartMeter', style: Styles.regularTextStyle) )
-          ],
-        ),
-      ),
-    );
+          ),
+          ElevatedButton(style:Styles.primaryButtonStyle,  onPressed: ()=>registerSmartMeter(smartMeterIdController.text), child: Text('Register SmartMeter', style: Styles.regularTextStyle) )
+        ],
+      );
   }
 
 
@@ -68,9 +72,6 @@ class _RegisterSmartMeterScreenState extends State<RegisterSmartMeterScreen> {
             String householdId = decodedToken['householdId'];
 
             int response = await APIController.registerSmartMeter(token, householdId, smartMeterId);
-
-
-            debugPrint("[----smartmeterID----]$smartMeterId");
             
             if(response == StatusCodes.OK){
               BottomToast.showToast("Smartmeter successfullty Registered");

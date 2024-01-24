@@ -13,7 +13,6 @@ class UserDTO {
     required this.roles,
   });
 
-  // Factory method to create UserDTO from a JSON Map
   factory UserDTO.fromJson(Map<String, dynamic> json) {
     return UserDTO(
       userId: json['userId'],
@@ -24,7 +23,6 @@ class UserDTO {
     );
   }
 
-  // Method to convert UserDTO to a JSON Map
   Map<String, dynamic> toJson() {
     return {
       'userId': userId,

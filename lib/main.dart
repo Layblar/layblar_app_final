@@ -1,6 +1,5 @@
 import 'package:ass/API/APIController.dart';
 import 'package:ass/HelperClasses/StopWatchHoldItem.dart';
-import 'package:ass/DTO/TimerHoldItem.dart';
 import 'package:ass/Themes/ThemeColors.dart';
 import 'package:ass/screens/Login_Registration/LoginScreen.dart';
 import 'package:ass/screens/MainScreen.dart';
@@ -49,7 +48,6 @@ void main() async {
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (context) => StopwatchItemsModel()),
-      ChangeNotifierProvider(create: (context) => TimerItemsModel())
     ],
     child: MyApp(initialRoute: isTokenValid ? '/main' : '/login')
     )

@@ -27,36 +27,23 @@ class TimerScreen extends StatefulWidget {
 
 class _TimerScreenState extends State<TimerScreen> with WidgetsBindingObserver  {
 
-  // late Timer _timer;
   
   String selectedDevice = "";
   late DeviceDTO currentDevice;
-
-  List<DropdownMenuItem<String>> dropdownItems = [];
-
-  List<StopWatchItem> stopwatchItems = [];
-  //List<TimerItem> timerItems = [];
-
   late Future<List<DeviceDTO>> _devices;
 
+  List<DropdownMenuItem<String>> dropdownItems = [];
+  List<StopWatchItem> stopwatchItems = [];
 
   bool isStopWatchViewSelected = true;
-
   var timeValue = ""; 
-
 
   @override
   void initState() {
-  super.initState();
-
-  WidgetsBinding.instance.addObserver(this);
-
-  _devices = getAllDevices();
-
-  var stopwatchItemsModel = Provider.of<StopwatchItemsModel>(context, listen: false);
-
-  stopwatchItems = stopwatchItemsModel.stopwatchItems;
-  
+    super.initState();
+    _devices = getAllDevices();
+    var stopwatchItemsModel = Provider.of<StopwatchItemsModel>(context, listen: false);
+    stopwatchItems = stopwatchItemsModel.stopwatchItems;
 
     for (var item in stopwatchItems) {
         if (!item.isPaused) {
@@ -87,11 +74,11 @@ class _TimerScreenState extends State<TimerScreen> with WidgetsBindingObserver  
   }
 
 
-void onStopWatchItemDeleted() {
-    setState(() {
-      // Aktualisieren Sie hier die Zustände oder rufen Sie bei Bedarf eine Aktualisierung an.
-    });
+  void onStopWatchItemDeleted() {
+    setState(() {});
   }
+
+
   @override
   Widget build(BuildContext context) {
     return  SizedBox(
@@ -107,7 +94,6 @@ void onStopWatchItemDeleted() {
               children: [
                 Column(
                   children: [
-                    //Expanded(flex: 1, child: getToggleWatchModeSection()),
                     Expanded(flex: 1, child: getSetDeviceSection(snapshot.data!)), 
                     Expanded(
                       flex: 6,
@@ -251,11 +237,17 @@ void onStopWatchItemDeleted() {
       children: [
         Padding(
           padding: const EdgeInsets.symmetric( vertical: 16.0, horizontal: 16.0),
-          child: ElevatedButton(
-                  onPressed: () => addNewStopWatchItem(stopwatchItems, selectedDevice),
-                  style: Styles.primaryButtonRoundedStyle,
-                  child:  Text("+", style: Styles.headerTextStyle,),  
-                ),
+          child: Container(
+            height: 60,
+            width: 60,
+            child: Expanded(
+              child: ElevatedButton(
+                      onPressed: () => addNewStopWatchItem(stopwatchItems, selectedDevice),
+                      style: Styles.primaryButtonRoundedStyle,
+                      child:  Center(child: Text("+", style: TextStyle(fontSize: 40, color: ThemeColors.primaryBackground),)),  
+                    ),
+            ),
+          ),
         ),
       ],
     );

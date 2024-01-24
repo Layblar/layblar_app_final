@@ -1,15 +1,11 @@
 // ignore: file_names
-import 'package:ass/API/APIController.dart';
-import 'package:ass/DTO/Household/HouseholdDTO.dart';
-import 'package:ass/Services/TokenCheckService.dart';
+
 import 'package:ass/Themes/Styles.dart';
 import 'package:ass/screens/Main_Components/ChartScreen.dart';
 import 'package:ass/screens/Main_Components/DetailsScreen.dart';
 import 'package:ass/screens/Main_Components/LabelsScreen.dart';
-import 'package:ass/screens/Login_Registration/RegisterScreen.dart';
 import 'package:ass/screens/Settings/SettingsScreen.dart';
 import 'package:flutter/material.dart';
-import 'package:jwt_decoder/jwt_decoder.dart';
 import '../Themes/ThemeColors.dart';
 import 'Main_Components/StopwatchScreen.dart';
 
@@ -24,7 +20,7 @@ class MainScreen extends StatefulWidget with WidgetsBindingObserver {
 class _MainScreenState extends State<MainScreen> {
 
 
-   Widget _currentWidget = TimerScreen();
+   Widget _currentWidget = const TimerScreen();
    
   var _currentIndex = 0;
 
@@ -50,9 +46,7 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    loadHousehold();
-    
-
+  
   }
  
   @override
@@ -84,7 +78,7 @@ class _MainScreenState extends State<MainScreen> {
         items:  [
           BottomNavigationBarItem(
             icon: Icon(Icons.timer, color: _currentIndex == 0?ThemeColors.primary:ThemeColors.primaryDisabled),
-            label: "Timer",
+            label: "Stopwatch",
             backgroundColor: ThemeColors.secondaryBackground
           ),
           BottomNavigationBarItem(
@@ -112,25 +106,6 @@ class _MainScreenState extends State<MainScreen> {
 
 
 
-  Future<void> loadHousehold()async{
-    String? token = await APIController.getTokenFromSharedPreferences();
-
-    if(token != null){
-        Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
-        if(JwtDecoder.isExpired(token)){
-          TokenCheckService.navigateBackIfTokenIsExpired(context);
-        }else{
-            String householdId = decodedToken['householdId'];
-            HouseholdDTO? response = await APIController.getHousehold(token, householdId);
-            debugPrint("[------Household------]${response?.devices.length}");
-
-        }
-
-    }else{
-      //no token ever, register
-      Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => const RegisterScreen()));
-    }
-  }
-
+  
  
 }

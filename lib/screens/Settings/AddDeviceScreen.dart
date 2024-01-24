@@ -70,7 +70,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
         backgroundColor: ThemeColors.primaryBackground,
         body: getFormSection(),
        
-          floatingActionButton: FloatingActionButton(onPressed: ()=> addNewDevice(),child: const Center(child: Text("+")),),
+          floatingActionButton: FloatingActionButton(shape: const CircleBorder(), onPressed: ()=> addNewDevice(),child: Text("+", style: TextStyle(fontSize: 40, color: ThemeColors.secondaryBackground),),),
         ),
         
       );
@@ -171,9 +171,9 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
                     child: TextFormField( 
                       style: Styles.regularTextStyle,
                       controller: powerDrawController,
-                      keyboardType: TextInputType.numberWithOptions(decimal: true), // Allow decimal input
+                      keyboardType: const TextInputType.numberWithOptions(decimal: true), 
                       inputFormatters: [
-                        FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,4}$')), // Allow digits and optional decimal point with up to 2 decimal places
+                        FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,4}$')), 
                       ],
                       decoration:  InputDecoration(
                         hoverColor: ThemeColors.primary,
@@ -287,7 +287,6 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
          powerDraw =  int.parse(powerDrawController.text);
     }
     String energyEfficencyRating = energyEfficiencyRatingController.text;
-    //double weight = double.parse(weightController.text);
     List<DeviceCategoryDTO> categories = [];
       
     return DeviceDTO("", deviceName, deviceDescription, manufacturer, modelno, powerDraw, energyEfficencyRating, 0.0, categories);
@@ -303,9 +302,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
       return;
     }
 
-    //DeviceDTO newDeviceDTO = createNewDeviceDTO(selectedCategories.toList());
-    
-
+  
     String? token = await APIController.getTokenFromSharedPreferences();
     if(token != null){
         if(JwtDecoder.isExpired(token)){

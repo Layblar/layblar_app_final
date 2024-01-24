@@ -105,7 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: TextFormField(
                           style: Styles.regularTextStyle,
                           controller: passwordController,
-                          obscureText: !showPassword, // Hier wird das Passwort verborgen oder angezeigt
+                          obscureText: !showPassword, 
                           decoration: InputDecoration(
                             iconColor: ThemeColors.primary,
                             icon: const Icon(Icons.lock),
@@ -143,7 +143,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
 
 Future<void> validateUserAndLogin() async {
-  // Überprüfen, ob Benutzername und Passwort nicht leer sind
   String email = usernameController.text.trim();
   String password = passwordController.text.trim();
 
@@ -152,19 +151,16 @@ Future<void> validateUserAndLogin() async {
     return;
   }
 
-  // Überprüfen, ob die E-Mail-Adresse ein gültiges Format hat
   if (!RegExp(r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$').hasMatch(email)) {
     BottomToast.showToast("Invalid email format");
     return;
   }
 
-  // Versuchen Sie, sich anzumelden
-  //int response = await APIController.login(email, password);
-    int response = await APIController.login("lorenzrichard@gmx.at", "testtest");
+  int response = await APIController.login(email, password);
+  //int response = await APIController.login("lorenzrichard@gmx.at", "testtest");
 
 
   if (APIController.isReponseValid(response)) {
-    // Überprüfen, ob es einen Smart Meter gibt
     String? token = await APIController.getTokenFromSharedPreferences();
 
     if (token != null) {

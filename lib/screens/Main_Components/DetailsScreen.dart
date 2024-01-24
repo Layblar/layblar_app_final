@@ -33,6 +33,26 @@ final String DEVICE_PAGE = "DEVICE";
     getMyDevices();
   }
 
+
+  @override
+  Widget build(BuildContext context) {
+
+    return   Column(
+      children: [
+        Expanded(
+          flex: 1,
+          child: getToggleViewSection()
+        ),
+        Expanded(
+          flex: 8,
+          child: isAboutViewSelected? getAboutSection() : getDeviceListSection()
+        )
+      ],
+    );
+  }
+
+
+
   Future<List<ProjectDTO>>getAllProjects()async{
     String? token = await APIController.getTokenFromSharedPreferences();
     if(token != null){
@@ -62,29 +82,6 @@ final String DEVICE_PAGE = "DEVICE";
         }
     }
     return [];
-  }
-
-
-
-
-//about the project
-  @override
-  Widget build(BuildContext context) {
-
-    //header seaction
-    //project -- devices
-    return   Column(
-      children: [
-        Expanded(
-          flex: 1,
-          child: getToggleViewSection()
-        ),
-        Expanded(
-          flex: 8,
-          child: isAboutViewSelected? getAboutSection() : getDeviceListSection()
-        )
-      ],
-    );
   }
 
 

@@ -1,7 +1,6 @@
 import 'package:ass/DTO/Device/DeviceCategoryDTO.dart';
 
 class DeviceDTO{
-
   String deviceId;
   String deviceName;
   String deviceDescription;
@@ -15,7 +14,6 @@ class DeviceDTO{
   DeviceDTO(this.deviceId, this.deviceName, this.deviceDescription, this.manufacturer, this.modelNumber, this.powerDraw, this.energyEfficiencyRating, this.weight, this.categories);
 
 
-   // Convert DeviceDTO to JSON
   Map<String, dynamic> toJson() {
     return {
       'deviceId': deviceId,
@@ -30,7 +28,6 @@ class DeviceDTO{
     };
   }
 
-  // Create a DeviceDTO from JSON
   factory DeviceDTO.fromJson(Map<String, dynamic> json) {
     return DeviceDTO(
       json['deviceId'],

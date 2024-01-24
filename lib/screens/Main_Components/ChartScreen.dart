@@ -33,8 +33,6 @@ class _ChartScreenState extends State<ChartScreen> {
   String startTime = "";
   String endTime = "";
 
-  bool isStartTimeEnabled = false;
-  bool isEndTimeEnabled = false;
 
   int? selectedStartIndex;
   int? selectedEndIndex;
@@ -90,29 +88,7 @@ class _ChartScreenState extends State<ChartScreen> {
   
   }
 
-   Future<void> fetchSmartMeterData(int hours) async {
-    try {
-      List<SmartMeterDataDTO> data = await getSmartMeterData(hours);
-      setState(() {
-        
-        smartMeterData = data;
-        chartData = getChartDataPoints(smartMeterData);
-        dateMin = chartData[0].time;
-        dateMax = chartData[chartData.length -1].time;
-        dateValues = SfRangeValues(dateMin, dateMax);
-
-        chartKey = UniqueKey(); // Aktualisieren Sie den Schlüssel
-
-        selectedStartDate = dateMin;
-        selectedEndDate = dateMax;
-
-        
-  
-      });
-    } catch (error) {
-      print('Error fetching data: $error');
-    }
-  }
+   
 
 
   @override
@@ -159,6 +135,31 @@ class _ChartScreenState extends State<ChartScreen> {
         }
       },
     );
+  }
+
+
+  Future<void> fetchSmartMeterData(int hours) async {
+    try {
+      List<SmartMeterDataDTO> data = await getSmartMeterData(hours);
+      setState(() {
+        
+        smartMeterData = data;
+        chartData = getChartDataPoints(smartMeterData);
+        dateMin = chartData[0].time;
+        dateMax = chartData[chartData.length -1].time;
+        dateValues = SfRangeValues(dateMin, dateMax);
+
+        chartKey = UniqueKey(); // Aktualisieren Sie den Schlüssel
+
+        selectedStartDate = dateMin;
+        selectedEndDate = dateMax;
+
+        
+  
+      });
+    } catch (error) {
+      print('Error fetching data: $error');
+    }
   }
 
 
@@ -280,7 +281,6 @@ class _ChartScreenState extends State<ChartScreen> {
     }
 
   }
-
 
 
 /////////////////////////////////UI////////////////////////////////////////////////
@@ -578,20 +578,9 @@ class _ChartScreenState extends State<ChartScreen> {
   }
 
 
-  void enableStartTime(){
-    isEndTimeEnabled = false;
-    isStartTimeEnabled = true;
-  }
-
-  void enableEndTime(){
-    isStartTimeEnabled = false;
-    isEndTimeEnabled = true;
-  }
-
+  
   void resetScreen (){
     setState(() {
-      isEndTimeEnabled = false;
-      isStartTimeEnabled = false;
       startTime = "";
       endTime = "";
       selectedStartIndex = null;
@@ -603,8 +592,6 @@ class _ChartScreenState extends State<ChartScreen> {
 
   void onReset (){
     setState(() {
-      isEndTimeEnabled = false;
-      isStartTimeEnabled = false;
       startTime = "";
       endTime = "";
       selectedStartIndex = null;

@@ -33,7 +33,6 @@ class SmartMeterDataDTO {
     this.value72_7_0,
   );
 
-  // Convert SmartMeterDTO to JSON
   Map<String, dynamic> toJson() {
     return {
       'time': time,
@@ -54,7 +53,6 @@ class SmartMeterDataDTO {
     };
   }
 
-  // Create a SmartMeterDTO from JSON
   factory SmartMeterDataDTO.fromJson(Map<String, dynamic> json) {
     return SmartMeterDataDTO(
       json['time'],

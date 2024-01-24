@@ -5,7 +5,7 @@ class DeviceCategoryDTO{
   String deviceCategoryDescription;
 
   DeviceCategoryDTO(this.categoryId, this.categoryName, this.deviceCategoryDescription);
-  // Convert DeviceCategoryDTO to JSON
+
   Map<String, dynamic> toJson() {
     return {
       'deviceCategoryId': categoryId,
@@ -14,7 +14,6 @@ class DeviceCategoryDTO{
     };
   }
 
-  // Create a DeviceCategoryDTO from JSON
   factory DeviceCategoryDTO.fromJson(Map<String, dynamic> json) {
     return DeviceCategoryDTO(
       json['deviceCategoryId'] ?? '',

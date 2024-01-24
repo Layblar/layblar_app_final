@@ -6,9 +6,9 @@ class ProjectDTO {
   String projectName;
   String projectDescription;
   String projectDataUseDeclaration;
-  String startDate; // Assuming you want to store it as a string in ISO 8601 format
-  String endDate; // Assuming you want to store it as a string in ISO 8601 format
-  String created; // Assuming you want to store it as a string in ISO 8601 format
+  String startDate; 
+  String endDate; 
+  String created; 
   List<ProjectMetaDataDTO> metaData;
   List<LabelDTO> labels;
 
@@ -24,7 +24,6 @@ class ProjectDTO {
     required this.labels,
   });
 
-  // Factory method to create a ProjectDTO instance from a JSON map
   factory ProjectDTO.fromJson(Map<String, dynamic> json) {
     List<dynamic> metaDataList = json['metaData'] ?? [];
     List<ProjectMetaDataDTO> parsedMetaData =
@@ -46,7 +45,6 @@ class ProjectDTO {
     );
   }
 
-  // Convert the object to a JSON map
   Map<String, dynamic> toJson() {
     return {
       'projectId': projectId,

@@ -1,4 +1,3 @@
-
 import 'package:ass/API/APIController.dart';
 import 'package:ass/DTO/Label/LabelDataDTO.dart';
 import 'package:ass/Services/TokenCheckService.dart';
@@ -14,7 +13,6 @@ class LabelsScreen extends StatefulWidget {
   State<LabelsScreen> createState() => _LabelsScreenState();
 }
 
-//einf ne lsite von dem ganzen mist den wir gelabelt haben (ev bearbeiten/löschen?)
 class _LabelsScreenState extends State<LabelsScreen> {
 
   bool isTodaySelected =true;
@@ -22,66 +20,67 @@ class _LabelsScreenState extends State<LabelsScreen> {
   bool isMonthSelected = false;
 
 
-  
 
   @override
   Widget build(BuildContext context) {
     return  Column(
       children: [
-        //Expanded(flex: 1, child: getTimeFilterSection()),
-        Expanded(flex: 8, child: Container(
-          margin: const EdgeInsets.all(8),
-          decoration: Styles.containerDecoration,
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text("Here you can see all the Devices you've labeled", style: Styles.infoBoxTextStyle,),
-                const SizedBox(height: 16,),
-                Expanded(
-                  child: FutureBuilder(
-                    future: getAllLabels(),
-                    builder: (context, snapshot){
-                      if(snapshot.connectionState == ConnectionState.waiting){
-                        return  const Center(child: SizedBox(height: 32, width: 32, child: CircularProgressIndicator()));
-                      }else if(snapshot.hasError){
-                        return Text('Error ${snapshot.error}');
-                      }else{
-                        List<LabeledDataDTO> allLabels = snapshot.data!;
-                        if(allLabels.isEmpty){
-                          return Text("No labels so far!", style: Styles.regularTextStyle,);                        }
-                        return ListView.builder(
-                          itemCount: allLabels.length,
-                          itemBuilder: ((context, index) {
-                              return Column(
-                                children: [
-                                  Container(
-                                    decoration: Styles.primaryBackgroundContainerDecoration,
-                                    child: ListTile(
-                                      title: Text(allLabels[index].device.deviceName, style: Styles.regularTextStylePrimaryColor,),
-                                      subtitle: Text("Created at: ${parseDate(allLabels[index].createdAt)}", style: Styles.regularTextStyle),
-                                    ),
-                                  ),
-                                  const SizedBox(height: 16),
-                                ],
-                              );
-                            })
-                        );
-                  
-                  
-                      }
-                    }
-                  ),
-                )
-              ],
-            ),
-          ),
-        ))
+        Expanded( 
+        child: getMainSection())
       ],
     );
      
+  }
+
+  Container getMainSection() {
+    return Container(
+        margin: const EdgeInsets.all(8),
+        decoration: Styles.containerDecoration,
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text("Here you can see all the Devices you've labeled", style: Styles.infoBoxTextStyle,),
+              const SizedBox(height: 16,),
+              Expanded(
+                child: FutureBuilder(
+                  future: getAllLabels(),
+                  builder: (context, snapshot){
+                    if(snapshot.connectionState == ConnectionState.waiting){
+                      return  const Center(child: SizedBox(height: 32, width: 32, child: CircularProgressIndicator()));
+                    }else if(snapshot.hasError){
+                      return Text('Error ${snapshot.error}');
+                    }else{
+                      List<LabeledDataDTO> allLabels = snapshot.data!;
+                      if(allLabels.isEmpty){
+                        return Text("No labels so far!", style: Styles.regularTextStyle,);                        }
+                      return ListView.builder(
+                        itemCount: allLabels.length,
+                        itemBuilder: ((context, index) {
+                            return Column(
+                              children: [
+                                Container(
+                                  decoration: Styles.primaryBackgroundContainerDecoration,
+                                  child: ListTile(
+                                    title: Text(allLabels[index].device.deviceName, style: Styles.regularTextStylePrimaryColor,),
+                                    subtitle: Text("Created at: ${parseDate(allLabels[index].createdAt)}", style: Styles.regularTextStyle),
+                                  ),
+                                ),
+                                const SizedBox(height: 16),
+                              ],
+                            );
+                          })
+                      );
+                    }
+                  }
+                ),
+              )
+            ],
+          ),
+        ),
+      );
   }
 
   String parseDate(String date){

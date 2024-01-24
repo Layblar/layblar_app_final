@@ -6,7 +6,6 @@ class ProjectMetaDataDTO {
 
   ProjectMetaDataDTO(this.metaDataId, this.metaDataName, this.isRequired, this.value);
 
-  // Convert MetadataDTO to JSON
   Map<String, dynamic> toJson() {
     return {
       'metaDataId': metaDataId,
@@ -16,7 +15,6 @@ class ProjectMetaDataDTO {
     };
   }
 
-  // Create a MetadataDTO from JSON
   factory ProjectMetaDataDTO.fromJson(Map<String, dynamic> json) {
     return ProjectMetaDataDTO(
       json['metaDataId'] ?? '',
