@@ -50,6 +50,9 @@ class _TimerScreenState extends State<TimerScreen> with WidgetsBindingObserver  
           item.stopwatch.start();
         }
       }
+
+          WidgetsBinding.instance.addObserver(this);
+
   }
 
   @override
@@ -70,7 +73,6 @@ class _TimerScreenState extends State<TimerScreen> with WidgetsBindingObserver  
   void removeStopwatchItem(StopWatchItem item) {
     var stopwatchItemsModel = Provider.of<StopwatchItemsModel>(context, listen: false);
     stopwatchItemsModel.removeStopwatchItem(item);
-    debugPrint("sdfsdfsd");
   }
 
 
@@ -79,39 +81,44 @@ class _TimerScreenState extends State<TimerScreen> with WidgetsBindingObserver  
   }
 
 
-  @override
-  Widget build(BuildContext context) {
-    return  SizedBox(
-        child: FutureBuilder(
-          future: _devices,
-          builder: (context, snapshot){
-            if (snapshot.connectionState == ConnectionState.waiting) {
-            return  const Center(child: SizedBox( height: 32, width: 32, child: CircularProgressIndicator()));
-          } else if (snapshot.hasError) {
-            return Text('Error: ${snapshot.error}');
-          } else {
-            return Stack(
-              children: [
-                Column(
-                  children: [
-                    Expanded(flex: 1, child: getSetDeviceSection(snapshot.data!)), 
-                    Expanded(
-                      flex: 6,
-                      child: getStopWatchSection(),
-                    )
-                  ],
-                ),
-                Align(
-                  alignment: Alignment.bottomRight,
-                  child: getSubmitBtnSection(context, selectedDevice),  
-                ),
-              ],
-            );
-          }
+ @override
+Widget build(BuildContext context) {
+  return SizedBox(
+    child: FutureBuilder(
+      future: _devices,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+              child: SizedBox(height: 32, width: 32, child: CircularProgressIndicator()));
+        } else if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        } else {
+          return Stack(
+            children: [
+              Column(
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: getSetDeviceSection(snapshot.data!),
+                  ),
+                  Expanded(
+                    flex: 6,
+                    child: getStopWatchSection(),
+                  )
+                ],
+              ),
+              Align(
+                alignment: Alignment.bottomRight,
+                child: getSubmitBtnSection(context, selectedDevice),
+              ),
+            ],
+          );
         }
-        )
-      );
-  }
+      },
+    ),
+  );
+}
+
 
  
 
@@ -232,26 +239,27 @@ class _TimerScreenState extends State<TimerScreen> with WidgetsBindingObserver  
   
 
   Widget getSubmitBtnSection(BuildContext context, String selectedDevice) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric( vertical: 16.0, horizontal: 16.0),
-          child: Container(
-            height: 60,
-            width: 60,
-            child: Expanded(
-              child: ElevatedButton(
-                      onPressed: () => addNewStopWatchItem(stopwatchItems, selectedDevice),
-                      style: Styles.primaryButtonRoundedStyle,
-                      child:  Center(child: Text("+", style: TextStyle(fontSize: 40, color: ThemeColors.primaryBackground),)),  
-                    ),
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.end,
+    children: [
+      Padding(
+        padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
+        child: Container(
+          height: 60,
+          width: 60,
+          child: ElevatedButton(
+            onPressed: () => addNewStopWatchItem(stopwatchItems, selectedDevice),
+            style: Styles.primaryButtonRoundedStyle,
+            child: Center(
+              child: Text("+", style: TextStyle(fontSize: 40, color: ThemeColors.primaryBackground)),
             ),
           ),
         ),
-      ],
-    );
-  }
+      ),
+    ],
+  );
+}
+
 
 
   //functionality
